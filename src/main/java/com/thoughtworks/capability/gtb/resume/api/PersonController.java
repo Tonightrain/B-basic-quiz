@@ -1,12 +1,12 @@
 package com.thoughtworks.capability.gtb.resume.api;
 
+import com.thoughtworks.capability.gtb.resume.domian.Person;
 import com.thoughtworks.capability.gtb.resume.exception.PersonIsNotExistException;
 import com.thoughtworks.capability.gtb.resume.service.PersonService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("http://localhost:1234")
@@ -20,6 +20,11 @@ public class PersonController {
     @GetMapping("/users/{id}")
     public ResponseEntity getPerson(@PathVariable long id) throws PersonIsNotExistException {
         return ResponseEntity.ok(personService.getPerson(id));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity addPerson(@RequestBody @Valid Person person){
+        return ResponseEntity.created(null).body(personService.addPerson(person));
     }
 
 

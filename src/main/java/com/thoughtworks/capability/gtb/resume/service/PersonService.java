@@ -23,4 +23,8 @@ public class PersonService {
         }
         return person.get();
     }
+
+    public long addPerson(Person person) {
+        return personRepository.addPerson(person);
+    }
 }

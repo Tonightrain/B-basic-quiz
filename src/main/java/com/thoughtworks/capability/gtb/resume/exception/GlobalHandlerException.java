@@ -3,6 +3,7 @@ package com.thoughtworks.capability.gtb.resume.exception;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,5 +32,18 @@ public class GlobalHandlerException {
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResult> handleException(MethodArgumentNotValidException ex){
+        String message = ex.getBindingResult().getFieldError().getDefaultMessage();
+        ErrorResult errorResult = ErrorResult.builder()
+                .message(message)
+                .timestamp(new Date())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .status(Response.SC_BAD_REQUEST)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+    }
+
 
 }

@@ -1,11 +1,9 @@
 package com.thoughtworks.capability.gtb.resume.repository;
 
-import com.thoughtworks.capability.gtb.resume.domian.Education;
 import com.thoughtworks.capability.gtb.resume.domian.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,5 +22,11 @@ public class PersonRepository {
 
     public Optional<Person> findById(long id) {
         return personList.stream().filter(person -> person.getId() == id).findFirst();
+    }
+
+    public long addPerson(Person person) {
+        person.setId(personList.size()+1);
+        personList.add(person);
+        return person.getId();
     }
 }
