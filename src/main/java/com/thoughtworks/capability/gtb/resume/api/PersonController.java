@@ -21,4 +21,6 @@ public class PersonController {
     public ResponseEntity getPerson(@PathVariable long id) throws PersonIsNotExistException {
         return ResponseEntity.ok(personService.getPerson(id));
     }
+
+
 }

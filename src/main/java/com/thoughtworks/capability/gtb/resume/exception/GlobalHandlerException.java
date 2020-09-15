@@ -21,4 +21,15 @@ public class GlobalHandlerException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
     }
 
+    @ExceptionHandler(EducationsNotExistException.class)
+    public ResponseEntity<ErrorResult> handlePerson(EducationsNotExistException ex){
+        ErrorResult errorResult = ErrorResult.builder()
+                .message(ex.getMessage())
+                .timestamp(new Date())
+                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .status(Response.SC_NOT_FOUND)
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResult);
+    }
+
 }

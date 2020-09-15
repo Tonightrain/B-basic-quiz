@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Person {
-    private long id;
-    private String name;
-    private long age;
-    private String avatar;
+public class Education {
+    private long userId;
+    private String year;
+    private String title;
     private String description;
 }
