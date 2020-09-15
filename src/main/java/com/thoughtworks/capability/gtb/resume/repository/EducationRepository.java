@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.resume.repository;
 
 import com.thoughtworks.capability.gtb.resume.domian.Education;
+import com.thoughtworks.capability.gtb.resume.domian.Person;
 import com.thoughtworks.capability.gtb.resume.exception.EducationsNotExistException;
 import org.springframework.stereotype.Repository;
 
@@ -35,5 +36,14 @@ public class EducationRepository {
            throw new EducationsNotExistException("The person’s education does not exist");
        }
        return personEducations;
+    }
+
+    public void addPersonalEducationsById(long id, Education education) throws EducationsNotExistException {
+        List<Education> personEducations = educationList.stream().filter(education1 -> education1.getUserId() == id).collect(Collectors.toList());
+        if (personEducations.size() == 0){
+            throw new EducationsNotExistException("The person’s education does not exist");
+        }
+        education.setUserId(id);
+        educationList.add(education);
     }
 }

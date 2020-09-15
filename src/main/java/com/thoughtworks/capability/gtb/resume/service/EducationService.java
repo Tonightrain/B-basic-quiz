@@ -20,4 +20,8 @@ public class EducationService {
     public List<Education> getPersonalEducations(long id) throws EducationsNotExistException {
         return educationRepository.findEducationByUserId(id);
     }
+
+    public void addPersonalEducations(long id, Education education) throws EducationsNotExistException {
+        educationRepository.addPersonalEducationsById(id,education);
+    }
 }
