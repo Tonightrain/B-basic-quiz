@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EducationRepository {
+    // GTB: - 这种情况，通常直接在声明处进行初始化
     private List<Education> educationList;
 
     public EducationRepository(){
@@ -31,15 +32,19 @@ public class EducationRepository {
 
 
     public List<Education> findEducationByUserId(long id) throws EducationsNotExistException {
+        // GTB: - 这里的缩进怎么都不对？
        List<Education> personEducations = educationList.stream().filter(education -> education.getUserId() == id).collect(Collectors.toList());
-       if (personEducations.size() == 0){
-           throw new EducationsNotExistException("The person’s education does not exist");
+        // GTB: - 如果 user 就是刚刚好没有任何 educations 呢？也要抛异常？
+        // GTB: 为空时就返回 [] 就行了，不需要抛异常
+        if (personEducations.size() == 0){
+            throw new EducationsNotExistException("The person’s education does not exist");
        }
        return personEducations;
     }
 
     public void addPersonalEducationsById(long id, Education education) throws EducationsNotExistException {
         List<Education> personEducations = educationList.stream().filter(education1 -> education1.getUserId() == id).collect(Collectors.toList());
+        // GTB: - 新创建用户也不能增加 education？自己做功能测试要做全面！
         if (personEducations.size() == 0){
             throw new EducationsNotExistException("The person’s education does not exist");
         }

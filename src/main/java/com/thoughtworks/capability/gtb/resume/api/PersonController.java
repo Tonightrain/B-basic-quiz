@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+// GTB: @ResponseStatus 了解一下
 @RestController
 @CrossOrigin("http://localhost:1234")
 public class PersonController {
