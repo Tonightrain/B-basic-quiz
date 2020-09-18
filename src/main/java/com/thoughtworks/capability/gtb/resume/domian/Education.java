@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import static com.thoughtworks.capability.gtb.resume.component.ErrorMessage.*;
+import static com.thoughtworks.capability.gtb.resume.component.GlobalVariable.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,14 +18,14 @@ import javax.validation.constraints.Size;
 public class Education {
     private long userId;
 
-    @NotBlank(message = "year should not be null")
+    @NotBlank(message = YEAR_INVALID)
     private String year;
 
-    @NotBlank(message = "title should not be null")
-    @Size(min = 1,max = 256)
+    @NotBlank(message = TITLE_INVALID)
+    @Size(min = TITLE_MIN_LENGTH,max = TITLE_MAX_LENGTH)
     private String title;
 
-    @NotBlank(message = "description should not be null")
-    @Size(min = 1,max = 4096)
+    @NotBlank(message = EDUCATION_DESCRIPTION_INVALID)
+    @Size(min = DESCRIPTION_MIN_LENGTH,max = DESCRIPTION_MAX_LENGTH)
     private String description;
 }

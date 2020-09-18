@@ -19,7 +19,7 @@ public class PersonService {
     public Person getPerson(long id) throws PersonIsNotExistException {
         Optional<Person> person = personRepository.findById(id);
         if (!person.isPresent()){
-            throw new PersonIsNotExistException("person is not exist");
+            throw new PersonIsNotExistException();
         }
         return person.get();
     }

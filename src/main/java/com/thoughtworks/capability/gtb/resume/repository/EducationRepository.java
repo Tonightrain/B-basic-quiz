@@ -1,22 +1,17 @@
 package com.thoughtworks.capability.gtb.resume.repository;
 
 import com.thoughtworks.capability.gtb.resume.domian.Education;
-import com.thoughtworks.capability.gtb.resume.domian.Person;
-import com.thoughtworks.capability.gtb.resume.exception.EducationsNotExistException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class EducationRepository {
-    private List<Education> educationList;
+    private List<Education> educationList = new ArrayList<>();
 
     public EducationRepository(){
-        this.educationList = new ArrayList<>();
         Education education1 = Education.builder().userId(1).year("2005")
                 .title("Secondary school specializing in artistic")
                 .description("Eos, explicabo, nam, tenetur et ab eius deserunt aspernatur ipsum ducimus quibusdam quis voluptatibus.")
@@ -30,19 +25,17 @@ public class EducationRepository {
     }
 
 
-    public List<Education> findEducationByUserId(long id) throws EducationsNotExistException {
-       List<Education> personEducations = educationList.stream().filter(education -> education.getUserId() == id).collect(Collectors.toList());
+    public List<Education> findEducationByUserId(long id) {
+       List<Education> personEducations = educationList.stream()
+               .filter(education -> education.getUserId() == id)
+               .collect(Collectors.toList());
        if (personEducations.size() == 0){
-           throw new EducationsNotExistException("The person’s education does not exist");
+           return null;
        }
        return personEducations;
     }
 
-    public void addPersonalEducationsById(long id, Education education) throws EducationsNotExistException {
-        List<Education> personEducations = educationList.stream().filter(education1 -> education1.getUserId() == id).collect(Collectors.toList());
-        if (personEducations.size() == 0){
-            throw new EducationsNotExistException("The person’s education does not exist");
-        }
+    public void addPersonalEducationsById(long id, Education education) {
         education.setUserId(id);
         educationList.add(education);
     }
