@@ -1,11 +1,11 @@
 package com.thoughtworks.capability.gtb.resume.service;
 
+import com.thoughtworks.capability.gtb.resume.component.Converter;
 import com.thoughtworks.capability.gtb.resume.domian.Person;
+import com.thoughtworks.capability.gtb.resume.entity.PersonEntity;
 import com.thoughtworks.capability.gtb.resume.exception.PersonIsNotExistException;
 import com.thoughtworks.capability.gtb.resume.repository.PersonRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -16,15 +16,14 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public Person getPerson(long id) throws PersonIsNotExistException {
-        Optional<Person> person = personRepository.findById(id);
-        if (!person.isPresent()){
-            throw new PersonIsNotExistException();
-        }
-        return person.get();
+    public Person getPerson(long id) {
+        PersonEntity personEntity = personRepository.findById(id).orElseThrow(PersonIsNotExistException::new);
+        Person person = Converter.personEntityConvertToPerson(personEntity);
+        return person;
     }
 
-    public long addPerson(Person person) {
-        return personRepository.addPerson(person);
+    public PersonEntity addPerson(Person person) {
+        PersonEntity personEntity = Converter.personConvertToPersonEntity(person);
+        return personRepository.save(personEntity);
     }
 }

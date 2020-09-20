@@ -1,8 +1,10 @@
 package com.thoughtworks.capability.gtb.resume.api;
 
 import com.thoughtworks.capability.gtb.resume.domian.Person;
+import com.thoughtworks.capability.gtb.resume.entity.PersonEntity;
 import com.thoughtworks.capability.gtb.resume.exception.PersonIsNotExistException;
 import com.thoughtworks.capability.gtb.resume.service.PersonService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,14 +20,13 @@ public class PersonController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity getPerson(@PathVariable long id) throws PersonIsNotExistException {
-        return ResponseEntity.ok(personService.getPerson(id));
+    public Person getPerson(@PathVariable long id) {
+        return personService.getPerson(id);
     }
 
     @PostMapping("/users")
-    public ResponseEntity addPerson(@RequestBody @Valid Person person){
-        return ResponseEntity.created(null).body(personService.addPerson(person));
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonEntity addPerson(@RequestBody @Valid Person person){
+        return personService.addPerson(person);
     }
-
-
 }

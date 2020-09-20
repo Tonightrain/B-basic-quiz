@@ -1,7 +1,10 @@
 package com.thoughtworks.capability.gtb.resume.service;
 
+import com.thoughtworks.capability.gtb.resume.component.Converter;
 import com.thoughtworks.capability.gtb.resume.domian.Education;
 import com.thoughtworks.capability.gtb.resume.domian.Person;
+import com.thoughtworks.capability.gtb.resume.entity.EducationEntity;
+import com.thoughtworks.capability.gtb.resume.entity.PersonEntity;
 import com.thoughtworks.capability.gtb.resume.exception.PersonIsNotExistException;
 import com.thoughtworks.capability.gtb.resume.repository.EducationRepository;
 import com.thoughtworks.capability.gtb.resume.repository.PersonRepository;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EducationService {
@@ -21,15 +25,22 @@ public class EducationService {
         this.personRepository = personRepository;
     }
 
-    public List<Education> getPersonalEducations(long id) {
-        return educationRepository.findEducationByUserId(id);
+    public List<Education> getPersonalEducations(long personId) {
+        PersonEntity personEntity = personRepository.findById(personId).orElseThrow(PersonIsNotExistException::new);
+        Person person = Converter.personEntityConvertToPerson(personEntity);
+        Optional<List<EducationEntity>> educationEntities = educationRepository.findAllByPerson(personId);
+        if (!educationEntities.isPresent()){
+            return null;
+        }
+        List<Education> educations = educationEntities.get().stream()
+                .map(educationEntity -> Converter.educationEntityConvertToEducation(educationEntity,person))
+                .collect(Collectors.toList());
+        return educations;
     }
 
-    public void addPersonalEducations(long id, Education education) throws PersonIsNotExistException {
-        Optional<Person> person = personRepository.findById(id);
-        if (!person.isPresent()){
-            throw new PersonIsNotExistException();
-        }
-        educationRepository.addPersonalEducationsById(id,education);
+    public void addPersonalEducations(long id, Education education){
+        PersonEntity personEntity = personRepository.findById(id).orElseThrow(PersonIsNotExistException::new);
+        EducationEntity educationEntity = Converter.educationConvertToEducationEntity(education,personEntity);
+        educationRepository.save(educationEntity);
     }
 }

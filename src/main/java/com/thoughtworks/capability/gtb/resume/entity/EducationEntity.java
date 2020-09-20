@@ -1,10 +1,10 @@
-package com.thoughtworks.capability.gtb.resume.domian;
+package com.thoughtworks.capability.gtb.resume.entity;
 
+import com.thoughtworks.capability.gtb.resume.domian.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,23 +12,27 @@ import javax.validation.constraints.Size;
 
 import static com.thoughtworks.capability.gtb.resume.component.ErrorMessage.*;
 import static com.thoughtworks.capability.gtb.resume.component.GlobalVariable.*;
+import static com.thoughtworks.capability.gtb.resume.component.GlobalVariable.DESCRIPTION_MAX_LENGTH;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Education {
+@Entity
+@Table(name = "education")
+public class EducationEntity {
 
-    private long personId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @NotBlank(message = YEAR_INVALID)
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private PersonEntity personEntity;
+
     private String year;
 
-    @NotBlank(message = TITLE_INVALID)
-    @Size(min = TITLE_MIN_LENGTH,max = TITLE_MAX_LENGTH)
     private String title;
 
-    @NotBlank(message = EDUCATION_DESCRIPTION_INVALID)
-    @Size(min = DESCRIPTION_MIN_LENGTH,max = DESCRIPTION_MAX_LENGTH)
     private String description;
 }
