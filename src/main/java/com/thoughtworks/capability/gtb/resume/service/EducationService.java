@@ -28,11 +28,8 @@ public class EducationService {
     public List<Education> getPersonalEducations(long personId) {
         PersonEntity personEntity = personRepository.findById(personId).orElseThrow(PersonIsNotExistException::new);
         Person person = Converter.personEntityConvertToPerson(personEntity);
-        Optional<List<EducationEntity>> educationEntities = educationRepository.findAllByPerson(personId);
-        if (!educationEntities.isPresent()){
-            return null;
-        }
-        List<Education> educations = educationEntities.get().stream()
+        List<EducationEntity> educationEntities = educationRepository.findByPersonEntity(personEntity);
+        List<Education> educations = educationEntities.stream()
                 .map(educationEntity -> Converter.educationEntityConvertToEducation(educationEntity,person))
                 .collect(Collectors.toList());
         return educations;
