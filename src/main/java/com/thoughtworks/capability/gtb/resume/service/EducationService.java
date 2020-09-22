@@ -35,9 +35,9 @@ public class EducationService {
         return educations;
     }
 
-    public void addPersonalEducations(long id, Education education){
+    public EducationEntity addPersonalEducations(long id, Education education){
         PersonEntity personEntity = personRepository.findById(id).orElseThrow(PersonIsNotExistException::new);
         EducationEntity educationEntity = Converter.educationConvertToEducationEntity(education,personEntity);
-        educationRepository.save(educationEntity);
+        return educationRepository.save(educationEntity);
     }
 }

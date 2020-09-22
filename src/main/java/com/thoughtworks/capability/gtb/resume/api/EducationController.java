@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.resume.api;
 
 import com.thoughtworks.capability.gtb.resume.domian.Education;
+import com.thoughtworks.capability.gtb.resume.entity.EducationEntity;
 import com.thoughtworks.capability.gtb.resume.exception.PersonIsNotExistException;
 import com.thoughtworks.capability.gtb.resume.service.EducationService;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class EducationController {
 
     @PostMapping("/users/{id}/educations")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addPersonalEducations(@PathVariable long id, @RequestBody @Valid Education education) {
-        educationService.addPersonalEducations(id,education);
+    public EducationEntity addPersonalEducations(@PathVariable long id, @RequestBody @Valid Education education) {
+        return educationService.addPersonalEducations(id,education);
     }
 }

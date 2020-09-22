@@ -22,8 +22,9 @@ public class PersonService {
         return person;
     }
 
-    public PersonEntity addPerson(Person person) {
+    public long addPerson(Person person) {
         PersonEntity personEntity = Converter.personConvertToPersonEntity(person);
-        return personRepository.save(personEntity);
+        personRepository.save(personEntity);
+        return personEntity.getId();
     }
 }

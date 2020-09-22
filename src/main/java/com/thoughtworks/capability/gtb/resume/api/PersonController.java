@@ -26,7 +26,7 @@ public class PersonController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public PersonEntity addPerson(@RequestBody @Valid Person person){
+    public long addPerson(@RequestBody @Valid Person person){
         return personService.addPerson(person);
     }
 }
