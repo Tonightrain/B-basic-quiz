@@ -56,10 +56,10 @@ class PersonServiceTest {
         @Test
         void shouldThrowExceptionWhenPersonIsNotExist() {
             long testId = 1;
-            when(personRepository.findById(testId)).thenThrow(new PersonIsNotExistException());
+            when(personRepository.findById(testId)).thenReturn(Optional.empty());
 
             PersonIsNotExistException thrownException = assertThrows(PersonIsNotExistException.class, () -> {
-                personRepository.findById(testId);
+                personService.getPerson(testId);
             });
 
             assertThat(thrownException.getMessage()).containsSequence("person is not exist");
